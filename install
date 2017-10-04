@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+if [ -z "$HOME" ]; then echo "Seems you're \$HOMEless :("; exit 1; fi
+
+DOTFILES=$HOME/.dotfiles
+
+cd $HOME
+rm -rf $DOTFILES
+mkdir $DOTFILES
+cd $DOTFILES
+
+git init
+git remote add origin git@github.com:Glenf/dotfiles.git
+git pull origin master
+git submodule update --init --recursive
+
+rm -rf \
+  $HOME/.gitconfig \
+  $HOME/.tmux.conf \
+  $HOME/.vim \
+  $HOME/.zshrc
+
+ln -s $DOTFILES/gitconfig $HOME/.gitconfig
+ln -s $DOTFILES/tmux.conf $HOME/.tmux.conf
+ln -s $DOTFILES/vim $HOME/.vim
+ln -s $DOTFILES/zshrc $HOME/.zshrc
+
+mkdir -p \
+  ~/.local/share/vim/{swap,undo} \
+  ~/.vim/pack/plugins/start
+
+git clone https://github.com/w0rp/ale.git ~/.vim/pack/plugins/start/ale
+
+if [[ `uname` == 'Darwin' ]]; then
+  defaults write com.apple.dock autohide-delay -float 86400; killall Dock
+  defaults write -g ApplePressAndHoldEnabled -bool false
+fi
+
+cd $HOME
+rm -f $HOME/.zcompdump*
+exec zsh

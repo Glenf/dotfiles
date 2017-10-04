@@ -1,0 +1,9 @@
+[user]
+	name = Tommi Pääkkö
+	email = tommi@nerd.fi
+
+[github]
+	user = Glenf
+
+[credential]
+	helper = cache --timeout=86400
