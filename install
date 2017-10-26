@@ -16,11 +16,13 @@ git submodule update --init --recursive
 
 rm -rf \
   $HOME/.gitconfig \
+  $HOME/.gitignore \
   $HOME/.tmux.conf \
   $HOME/.vim \
   $HOME/.zshrc
 
 ln -s $DOTFILES/gitconfig $HOME/.gitconfig
+ln -s $DOTFILES/gitignore $HOME/.gitignore
 ln -s $DOTFILES/tmux.conf $HOME/.tmux.conf
 ln -s $DOTFILES/vim $HOME/.vim
 ln -s $DOTFILES/zshrc $HOME/.zshrc
