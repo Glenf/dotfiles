@@ -101,6 +101,9 @@ PROMPT='
 source $DOTFILES/vendor/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $DOTFILES/vendor/zsh-users/zsh-history-substring-search/zsh-history-substring-search.zsh
 
+bindkey -v
+bindkey '^R' history-incremental-pattern-search-backward
+
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey '\eOA' history-substring-search-up
