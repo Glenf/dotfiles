@@ -9,7 +9,7 @@ fpath=($DOTFILES/vendor/zsh-users/zsh-completions/src $fpath)
 unalias -m "*"
 
 export CLICOLOR=1
-export EDITOR=vim
+export EDITOR=nvim
 export KEYTIMEOUT=1
 export QUOTING_STYLE=literal
 export TERM=xterm-256color
@@ -110,3 +110,18 @@ bindkey '\eOA' history-substring-search-up
 bindkey '\eOB' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+
+## Docker & Docker Compose aliases
+alias dcu="docker-compose up -d"
+alias dcr="docker-compose run --rm"
+alias dcd="docker-compose down"
+alias dlogs="docker logs -f"
+
+## VIM to NVIM
+alias vim=nvim
+
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
