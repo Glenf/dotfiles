@@ -18,25 +18,48 @@ rm -rf \
   $HOME/.gitignore \
   $HOME/.tmux.conf \
   $HOME/.vim \
-  $HOME/.zshrc
+  $HOME/.config/nvim/init.vim \
+  $HOME/.zshrc \
+  $HOME/.config/direnv
 
 ln -s $DOTFILES/gitconfig $HOME/.gitconfig
 ln -s $DOTFILES/gitignore $HOME/.gitignore
 ln -s $DOTFILES/tmux.conf $HOME/.tmux.conf
 ln -s $DOTFILES/vim $HOME/.vim
+ln -s $DOTFILES/vim/vimrc $HOME/.config/nvim/init.vim
 ln -s $DOTFILES/zshrc $HOME/.zshrc
 ln -s $DOTFILES/direnv $HOME/.config/direnv
 
 mkdir -p \
-  ~/.local/share/vim/{swap,undo} \
+  ~/.local/share/vim/{swap,undo,backup} \
   ~/.vim/pack/plugins/start
 
-git clone https://github.com/w0rp/ale.git ~/.vim/pack/plugins/start/ale
+# Plug for Vim (~/.vim/autoload)
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-if [[ `uname` == 'Darwin' ]]; then
-  defaults write com.apple.dock autohide-delay -float 86400; killall Dock
-  defaults write -g ApplePressAndHoldEnabled -bool false
+# Plug for Neovim (~/.local/share/nvim/site/autoload)
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+
+if [ "$(uname)" == "Darwin" ]; then
+   which -s brew
+    if [[ $? != 0 ]] ; then
+        # Install Homebrew
+        echo "Install Homebrew"
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    else
+        echo "Update Homebrew"
+        brew update
+    fi
+
+    brew install asdf
+    asdf plugin-add direnv
+    asdf install direnv latest
+    asdf global direnv latest
 fi
+
 
 cd $HOME
 rm -f $HOME/.zcompdump*

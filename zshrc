@@ -8,6 +8,12 @@ path=($DOTFILES/bin $path)
 
 source $DOTFILES/vendor/antigen.zsh
 
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+antigen bundle git
+antigen bundle asdf
+
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-history-substring-search
@@ -120,7 +126,7 @@ export PATH="$PATH:$HOME/bin:$HOME/.poetry/bin"
 # ASDF things
 # -------------------------------------------------------------------
 
-. /opt/homebrew/opt/asdf/asdf.sh
+# . /opt/homebrew/opt/asdf/asdf.sh
 
 # Hook direnv into your shell.
 eval "$(asdf exec direnv hook zsh)"

@@ -1,0 +1,6 @@
+*.swp
+.netrwhist
+bundle/
+swaps/
+autoload/
+pack/
