@@ -12,7 +12,6 @@ cd $DOTFILES
 git init
 git remote add origin git@github.com:Glenf/dotfiles.git
 git pull origin master
-git submodule update --init --recursive
 
 rm -rf \
   $HOME/.gitconfig \
@@ -26,6 +25,7 @@ ln -s $DOTFILES/gitignore $HOME/.gitignore
 ln -s $DOTFILES/tmux.conf $HOME/.tmux.conf
 ln -s $DOTFILES/vim $HOME/.vim
 ln -s $DOTFILES/zshrc $HOME/.zshrc
+ln -s $DOTFILES/direnv $HOME/.config/direnv
 
 mkdir -p \
   ~/.local/share/vim/{swap,undo} \
