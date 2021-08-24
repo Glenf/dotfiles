@@ -4,15 +4,12 @@ DOTFILES=$HOME/.dotfiles
 GREP_EXCLUDE_DIR="{.git,.sass-cache,artwork,node_modules,vendor}"
 OS=`uname`
 
+source $DOTFILES/zsh/env
+source $DOTFILES/zsh/alias
+
 path=($DOTFILES/bin $path)
 
 source $DOTFILES/vendor/antigen.zsh
-
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
-
-antigen bundle git
-antigen bundle asdf
 
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
@@ -25,14 +22,6 @@ antigen bundle woefe/git-prompt.zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
-
-unalias -m "*"
-
-export CLICOLOR=1
-export EDITOR=nvim
-export KEYTIMEOUT=1
-export QUOTING_STYLE=literal
-export TERM=xterm-256color
 
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
@@ -87,45 +76,10 @@ bindkey '\eOB' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-## VIM to NVIM
-# alias vim=nvim
-
-## Rosetta
-alias rosetta="arch -x86_64 /bin/zsh"
-
-
-# open ~/.zshrc in using the default editor specified in $EDITOR
-alias ec="$EDITOR $HOME/.zshrc"
-
-# source ~/.zshrc
-alias sc="source $HOME/.zshrc"
-
-# -------------------------------------------------------------------
-# Python
-# -------------------------------------------------------------------
-
-# export PATH="$HOME/.pyenv/bin:$PATH"
-# if command -v pyenv 1>/dev/null 2>&1; then
-#   eval "$(pyenv init -)"
-# fi
-
-# python3 Alias
-alias python="python3"
-
-# pipx
-export PATH="$PATH:$HOME/.local/bin"
-
-export PATH="$PATH:$HOME/bin:$HOME/.poetry/bin"
-
-# # Numpy fix
-# export OPENBLAS=$(brew --prefix openblas)
-# export CFLAGS="-falign-functions=8 ${CFLAGS}"
 
 # -------------------------------------------------------------------
 # ASDF things
 # -------------------------------------------------------------------
-
-# . /opt/homebrew/opt/asdf/asdf.sh
 
 # Hook direnv into your shell.
 eval "$(asdf exec direnv hook zsh)"
@@ -133,8 +87,18 @@ eval "$(asdf exec direnv hook zsh)"
 # A shortcut for asdf managed direnv.
 direnv() { asdf exec direnv "$@"; }
 
-# Workman - QWERTY mapping
-alias asht="asdf"
+# Find where asdf should be installed
+ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}"
+
+# If not found, check for Homebrew package
+if [[ ! -f "$ASDF_DIR/asdf.sh" ]] && (( $+commands[brew] )); then
+  ASDF_DIR="$(brew --prefix asdf)/libexec"
+fi
+
+# Load command
+if [[ -f "$ASDF_DIR/asdf.sh" ]]; then
+    . "$ASDF_DIR/asdf.sh"
+fi
 
 # -------------------------------------------------------------------
 # Docker and Kubernetes
@@ -142,12 +106,6 @@ alias asht="asdf"
 
 # Kubernetes completion
 source <(kubectl completion zsh)
-
-## Docker & Docker Compose aliases
-alias dcu="docker compose up -d"
-alias dcr="docker compose run --rm"
-alias dcd="docker compose down"
-alias dlogs="docker logs -f"
 
 # -------------------------------------------------------------------
 # Prompt

@@ -1,11 +1,11 @@
 # Dotfiles
 
-These are my dotfiles. Atleast some of them. I'm in the process on transitioning them to here. Soon I'll have an "installer" for these files.
+These are my `dotfiles`. There are many `dotfiles` available, but these are mine. I've got `dotfiles` for zsh, vim/neovim, and tmux.
 
 ## Installation
 
-Git magic and symbolic links. Manually.
+If you trust me you could run `bash -c "$(curl -fsSL https://raw.githubusercontent.com/Glenf/dotfiles/main/install)"`. I wouldn't trust me.
 
 ## Credits
 
-Most of this stuff is inspired or copied from https://github.com/joshtronic/dotfiles. So thank you.
+Some of this stuff is inspired by https://github.com/joshtronic/dotfiles. So thank you.

@@ -17,10 +17,10 @@ echo "#########################################\n"
 
 echo "Cleaning \$HOME and \$DOTFILES"
 
-# cd $HOME
-# rm -rf $DOTFILES
-# mkdir $DOTFILES
-# cd $DOTFILES
+cd $HOME
+rm -rf $DOTFILES
+mkdir $DOTFILES
+cd $DOTFILES
 
 ##########
 # SETUP
@@ -28,9 +28,9 @@ echo "Cleaning \$HOME and \$DOTFILES"
 
 echo "Cloning git"
 
-# git init
-# git remote add origin git@github.com:Glenf/dotfiles.git
-# git pull origin master
+git init
+git remote add origin git@github.com:Glenf/dotfiles.git
+git pull origin master
 
 ######################
 # GIT
@@ -87,9 +87,9 @@ mkdir -p $HOME/.tmux/plugins/
 # Tmux Plugin Manager
 git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 
-######################
-# DIRENV / ASDF
-######################
+###########################
+# DIRENV / ASDF / HOMEBREW
+###########################
 echo "Setting up Direnv and asdf\n"
 
 rm -rf $HOME/.config/direnv
@@ -99,7 +99,7 @@ if [ "$(uname)" == "Darwin" ]; then
     which -s brew
     if [[ $? != 0 ]] ; then
         # Install Homebrew
-        echo "Install Homebrew"
+        echo "Installing Homebrew"
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     else
         echo "Update Homebrew"

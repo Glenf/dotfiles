@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+export CLICOLOR=1
+export EDITOR=nvim
+export KEYTIMEOUT=1
+export QUOTING_STYLE=literal
+export TERM=xterm-256color
+
+
+# pipx
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/bin:$HOME/.poetry/bin"

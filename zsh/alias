@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+unalias -m "*"
+
+alias ll="ls -l"
+
+## Rosetta
+alias rosetta="arch -x86_64 /bin/zsh"
+
+
+# open ~/.zshrc in using the default editor specified in $EDITOR
+alias ec="$EDITOR $HOME/.zshrc"
+
+# source ~/.zshrc
+alias sc="source $HOME/.zshrc"
+
+alias python="python3"
+
+
+# -------------------------------------------------------------------
+# ASDF Workman - QWERTY mapping
+# -------------------------------------------------------------------
+alias asht="asdf"
+
+
+# -------------------------------------------------------------------
+# Docker and Kubernetes
+# -------------------------------------------------------------------
+alias dcu="docker compose up -d"
+alias dcr="docker compose run --rm"
+alias dcd="docker compose down"
+alias dlogs="docker logs -f"
