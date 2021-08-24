@@ -95,22 +95,22 @@ echo "Setting up Direnv and asdf\n"
 rm -rf $HOME/.config/direnv
 ln -s $DOTFILES/direnv $HOME/.config/direnv
 
-# if [ "$(uname)" == "Darwin" ]; then
-#     which -s brew
-#     if [[ $? != 0 ]] ; then
-#         # Install Homebrew
-#         echo "Install Homebrew"
-#         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-#     else
-#         echo "Update Homebrew"
-#         brew update
-#     fi
+if [ "$(uname)" == "Darwin" ]; then
+    which -s brew
+    if [[ $? != 0 ]] ; then
+        # Install Homebrew
+        echo "Install Homebrew"
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    else
+        echo "Update Homebrew"
+        brew update
+    fi
 
-#     brew install asdf
-#     asdf plugin-add direnv
-#     asdf install direnv latest
-#     asdf global direnv latest
-# fi
+    brew install asdf
+    asdf plugin-add direnv
+    asdf install direnv latest
+    asdf global direnv latest
+fi
 
 ######################
 # ZSH
