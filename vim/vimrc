@@ -1,7 +1,7 @@
 " vim: foldmethod=marker
 " Make Vim more useful
-set nocompatible
-filetype off
+" set nocompatible
+" filetype off
 
 
 " Plug plugins {{{1
@@ -111,6 +111,7 @@ set backspace=indent,eol,start
 set ttyfast
 " Add the g flag to search/replace by default
 "set gdefault
+set hidden
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 " Change mapleader
@@ -119,10 +120,10 @@ let mapleader=","
 set binary
 set noeol
 " Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
+set backupdir=~/.local/share/vim/backup
+set directory=~/.local/share/vim/swap
 if exists("&undodir")
-set undodir=~/.vim/undo
+set undodir=~/.local/share/vim/undo
 endif
 
 " Respect modeline in files

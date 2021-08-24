@@ -2,65 +2,133 @@
 
 if [ -z "$HOME" ]; then echo "Seems you're \$HOMEless :("; exit 1; fi
 
+##########
+# CONFIG
+##########
+
 DOTFILES=$HOME/.dotfiles
 
-cd $HOME
-rm -rf $DOTFILES
-mkdir $DOTFILES
-cd $DOTFILES
+echo "#########################################"
+echo "           INSTALLING DOTFILES           "
+echo "-----------------------------------------\n"
+echo "HOME:     $HOME"
+echo "DOTFILES: $DOTFILES"
+echo "#########################################\n"
 
-git init
-git remote add origin git@github.com:Glenf/dotfiles.git
-git pull origin master
+echo "Cleaning \$HOME and \$DOTFILES"
+
+# cd $HOME
+# rm -rf $DOTFILES
+# mkdir $DOTFILES
+# cd $DOTFILES
+
+##########
+# SETUP
+##########
+
+echo "Cloning git"
+
+# git init
+# git remote add origin git@github.com:Glenf/dotfiles.git
+# git pull origin master
+
+######################
+# GIT
+######################
+
+echo "Setting up git\n"
 
 rm -rf \
-  $HOME/.gitconfig \
-  $HOME/.gitignore \
-  $HOME/.tmux.conf \
-  $HOME/.vim \
-  $HOME/.config/nvim/init.vim \
-  $HOME/.zshrc \
-  $HOME/.config/direnv
+    $HOME/.gitconfig \
+    $HOME/.gitignore \
 
 ln -s $DOTFILES/gitconfig $HOME/.gitconfig
 ln -s $DOTFILES/gitignore $HOME/.gitignore
-ln -s $DOTFILES/tmux.conf $HOME/.tmux.conf
+
+######################
+# VIM / NEOVIM THINGS
+######################
+echo "Setting up VIM\n"
+
+rm -rf \
+    $HOME/.vimrc \
+    $HOME/.vim \
+    $HOME/.config/nvim/init.vim \
+    $HOME/.local/share/nvim/
+
 ln -s $DOTFILES/vim $HOME/.vim
 ln -s $DOTFILES/vim/vimrc $HOME/.config/nvim/init.vim
-ln -s $DOTFILES/zshrc $HOME/.zshrc
-ln -s $DOTFILES/direnv $HOME/.config/direnv
+ln -s $DOTFILES/vim/vimrc $HOME/.vimrc
 
 mkdir -p \
-  ~/.local/share/vim/{swap,undo,backup} \
-  ~/.vim/pack/plugins/start
+    $HOME/.local/share/vim/{swap,undo,backup} \
+    $HOME/.config/nvim/
 
 # Plug for Vim (~/.vim/autoload)
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Plug for Neovim (~/.local/share/nvim/site/autoload)
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+######################
+# TMUX
+######################
+echo "Setting up TMUX\n"
 
-if [ "$(uname)" == "Darwin" ]; then
-   which -s brew
-    if [[ $? != 0 ]] ; then
-        # Install Homebrew
-        echo "Install Homebrew"
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    else
-        echo "Update Homebrew"
-        brew update
-    fi
+rm -rf \
+    $HOME/.tmux.conf \
+    $HOME/.tmux/plugins/
 
-    brew install asdf
-    asdf plugin-add direnv
-    asdf install direnv latest
-    asdf global direnv latest
-fi
+ln -s $DOTFILES/tmux.conf $HOME/.tmux.conf
+mkdir -p $HOME/.tmux/plugins/
+
+# Tmux Plugin Manager
+git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+
+######################
+# DIRENV / ASDF
+######################
+echo "Setting up Direnv and asdf\n"
+
+rm -rf $HOME/.config/direnv
+ln -s $DOTFILES/direnv $HOME/.config/direnv
+
+# if [ "$(uname)" == "Darwin" ]; then
+#     which -s brew
+#     if [[ $? != 0 ]] ; then
+#         # Install Homebrew
+#         echo "Install Homebrew"
+#         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#     else
+#         echo "Update Homebrew"
+#         brew update
+#     fi
+
+#     brew install asdf
+#     asdf plugin-add direnv
+#     asdf install direnv latest
+#     asdf global direnv latest
+# fi
+
+######################
+# ZSH
+######################
+echo "Setting up ZSH\n"
+
+rm -rf $HOME/.zshrc
+ln -s $DOTFILES/zshrc ~/.zshrc
+
+echo "#########################################"
+echo "                ALL DONE                 "
+echo "-----------------------------------------\n"
+echo "Remember to update git email\n"
+echo "git config --global user.email your.email@here.com\n"
+echo "#########################################\n"
 
 
 cd $HOME
 rm -f $HOME/.zcompdump*
 exec zsh
+

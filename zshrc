@@ -88,11 +88,10 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
 ## VIM to NVIM
-alias vim=nvim
+# alias vim=nvim
 
 ## Rosetta
 alias rosetta="arch -x86_64 /bin/zsh"
-
 
 
 # open ~/.zshrc in using the default editor specified in $EDITOR
