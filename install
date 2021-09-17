@@ -107,10 +107,15 @@ if [ "$(uname)" == "Darwin" ]; then
     fi
 
     brew install asdf
-    asdf plugin-add direnv
-    asdf install direnv latest
-    asdf global direnv latest
+else
+    # Assuming linux
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
+    . $HOME/.asdf/asdf.sh
 fi
+
+asdf plugin-add direnv
+asdf install direnv latest
+asdf global direnv latest
 
 ######################
 # ZSH
