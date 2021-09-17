@@ -104,8 +104,10 @@ fi
 # Docker and Kubernetes
 # -------------------------------------------------------------------
 
-# Kubernetes completion
-source <(kubectl completion zsh)
+# Kubernetes completion, if kubectl is installed
+if type kubectl &>/dev/null; then
+  source <(kubectl completion zsh)
+fi
 
 # -------------------------------------------------------------------
 # Prompt
