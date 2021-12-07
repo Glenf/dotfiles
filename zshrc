@@ -32,7 +32,7 @@ zstyle ':completion:*' completer _complete
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
 
 if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+	FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
 
 autoload -Uz compinit && compinit
@@ -56,14 +56,14 @@ setopt share_history
 
 # Colorful man pages
 man() {
-  env \
-    LESS_TERMCAP_md=$'\e[1;36m' \
-    LESS_TERMCAP_me=$'\e[0m' \
-    LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_so=$'\e[1;40;92m' \
-    LESS_TERMCAP_ue=$'\e[0m' \
-    LESS_TERMCAP_us=$'\e[1;32m' \
-    man "$@"
+	env \
+		LESS_TERMCAP_md=$'\e[1;36m' \
+		LESS_TERMCAP_me=$'\e[0m' \
+		LESS_TERMCAP_se=$'\e[0m' \
+		LESS_TERMCAP_so=$'\e[1;40;92m' \
+		LESS_TERMCAP_ue=$'\e[0m' \
+		LESS_TERMCAP_us=$'\e[1;32m' \
+		man "$@"
 }
 
 bindkey -v
@@ -92,12 +92,12 @@ ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}"
 
 # If not found, check for Homebrew package
 if [[ ! -f "$ASDF_DIR/asdf.sh" ]] && (( $+commands[brew] )); then
-  ASDF_DIR="$(brew --prefix asdf)/libexec"
+	ASDF_DIR="$(brew --prefix asdf)/libexec"
 fi
 
 # Load command
 if [[ -f "$ASDF_DIR/asdf.sh" ]]; then
-    . "$ASDF_DIR/asdf.sh"
+		. "$ASDF_DIR/asdf.sh"
 fi
 
 # -------------------------------------------------------------------
@@ -114,29 +114,29 @@ fi
 # -------------------------------------------------------------------
 
 function username() {
-  # if [[ `whoami` != 'tommi' ]]; then
-    echo "%F{248}%n%F{reset}"
-  # fi
+	# if [[ `whoami` != 'tommi' ]]; then
+		echo "%F{248}%n%F{reset}"
+	# fi
 }
 
 function server() {
-  if [[ `hostname` != tommi-* ]]; then
-    echo "%F{244}@%F{magenta}%m%F{reset} "
-  fi
+	if [[ `hostname` != tommi-* ]]; then
+		echo "%F{244}@%F{magenta}%m%F{reset} "
+	fi
 }
 
 function architecture() {
-  if [[ `arch` == i386 ]]; then
-    echo "%F{244}%F{blue}(intel)%F{reset} "
-  fi
+	if [[ `arch` == i386 ]]; then
+		echo "%F{244}%F{blue}(intel)%F{reset} "
+	fi
 }
 
 zsh_terraform() {
-  # break if there is no .terraform directory
-  if [[ -d .terraform ]]; then
-    local tf_workspace=$(terraform workspace show)
-    echo -n "Tf %F{green}$tf_workspace%F{reset}"
-  fi
+	# break if there is no .terraform directory
+	if [[ -d .terraform ]]; then
+		local tf_workspace=$(terraform workspace show)
+		echo -n "Tf %F{green}$tf_workspace%F{reset}"
+	fi
 }
 
 ZSH_GIT_PROMPT_FORCE_BLANK=1
