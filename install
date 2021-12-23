@@ -88,9 +88,9 @@ mkdir -p $HOME/.tmux/plugins/
 git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 
 ###########################
-# DIRENV / ASDF / HOMEBREW
+# HOMEBREW / DIRENV / ASDF
 ###########################
-echo "Setting up Direnv and asdf\n"
+echo "Setting up Direnv\n"
 
 rm -rf $HOME/.config/direnv
 ln -s $DOTFILES/direnv $HOME/.config/direnv
@@ -99,19 +99,30 @@ if [ "$(uname)" == "Darwin" ]; then
     which -s brew
     if [[ $? != 0 ]] ; then
         # Install Homebrew
-        echo "Installing Homebrew"
+        echo "Installing Homebrew\n"
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     else
-        echo "Update Homebrew"
+        echo "Update Homebrew\n"
         brew update
     fi
 
+    echo "Installing ASDF\n"
     brew install asdf
+
+    echo "Installing mcfly\n"
+    brew tap cantino/mcfly
+    brew install mcfly
 else
     # Assuming linux
+    echo "Installing ASDF from git\n"
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
     . $HOME/.asdf/asdf.sh
+
+    echo "Installing mcfly from git\n"
+    curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly
 fi
+
+echo "Setting up ASDF\n"
 
 asdf plugin-add direnv
 asdf install direnv latest

@@ -81,24 +81,25 @@ bindkey -M vicmd 'j' history-substring-search-down
 # ASDF things
 # -------------------------------------------------------------------
 
-# Hook direnv into your shell.
-eval "$(asdf exec direnv hook zsh)"
-
-# A shortcut for asdf managed direnv.
-direnv() { asdf exec direnv "$@"; }
-
 # Find where asdf should be installed
 ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}"
 
 # If not found, check for Homebrew package
-if [[ ! -f "$ASDF_DIR/asdf.sh" ]] && (( $+commands[brew] )); then
-	ASDF_DIR="$(brew --prefix asdf)/libexec"
+# if [[ ! -f "$ASDF_DIR/asdf.sh" ]] && (( $+commands[brew] )); then
+if (( $+commands[brew] )); then
+	ASDF_DIR="$(brew --prefix)/opt/asdf/libexec"
 fi
 
 # Load command
 if [[ -f "$ASDF_DIR/asdf.sh" ]]; then
 		. "$ASDF_DIR/asdf.sh"
 fi
+
+# Hook direnv into your shell.
+eval "$(asdf exec direnv hook zsh)"
+
+# A shortcut for asdf managed direnv.
+direnv() { asdf exec direnv "$@"; }
 
 # -------------------------------------------------------------------
 # Docker and Kubernetes
