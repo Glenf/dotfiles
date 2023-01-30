@@ -2,7 +2,8 @@
 
 DOTFILES=$HOME/.dotfiles
 GREP_EXCLUDE_DIR="{.git,.sass-cache,artwork,node_modules,vendor}"
-OS=`uname`
+OS=$(uname)
+
 
 source $DOTFILES/zsh/env
 source $DOTFILES/zsh/alias
@@ -76,7 +77,6 @@ bindkey '\eOB' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-
 # -------------------------------------------------------------------
 # ASDF things
 # -------------------------------------------------------------------
@@ -87,12 +87,12 @@ ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}"
 # If not found, check for Homebrew package
 # if [[ ! -f "$ASDF_DIR/asdf.sh" ]] && (( $+commands[brew] )); then
 if (( $+commands[brew] )); then
-	ASDF_DIR="$(brew --prefix)/opt/asdf/libexec"
+	ASDF_DIR="$(brew --prefix asdf)/libexec"
 fi
 
 # Load command
 if [[ -f "$ASDF_DIR/asdf.sh" ]]; then
-		. "$ASDF_DIR/asdf.sh"
+	. "$ASDF_DIR/asdf.sh"
 fi
 
 # Hook direnv into your shell.
@@ -107,7 +107,7 @@ direnv() { asdf exec direnv "$@"; }
 
 # Kubernetes completion, if kubectl is installed
 if type kubectl &>/dev/null; then
-  source <(kubectl completion zsh)
+	source <(kubectl completion zsh)
 fi
 
 # -------------------------------------------------------------------
@@ -116,28 +116,58 @@ fi
 
 function username() {
 	# if [[ `whoami` != 'tommi' ]]; then
-		echo "%F{248}%n%F{reset}"
+	echo "%F{248}%n%F{reset}"
 	# fi
 }
 
 function server() {
-	if [[ `hostname` != tommi-* ]]; then
+	if [[ $(hostname) != tommi-* ]]; then
 		echo "%F{244}@%F{magenta}%m%F{reset} "
 	fi
 }
 
 function architecture() {
-	if [[ `arch` == i386 ]]; then
+	if [[ $(arch) == i386 ]]; then
 		echo "%F{244}%F{blue}(intel)%F{reset} "
 	fi
 }
 
 zsh_terraform() {
-	# break if there is no .terraform directory
-	if [[ -d .terraform ]]; then
+	[[ -d .terraform ]] || return
+
+	if (( $+commands[terraform] )); then
 		local tf_workspace=$(terraform workspace show)
-		echo -n "Tf %F{green}$tf_workspace%F{reset}"
+		echo -n "%F{105}🛠 $tf_workspace%F{reset}"
+	else
+		return
 	fi
+}
+
+prompt_node() {
+	[[ -f package.json || -d node_modules || -n *.js(#qN^/) ]] || return
+
+	local 'node_version'
+
+	if (( $+commands[node] )); then
+		node_version=$(node -v 2>/dev/null)
+	else
+		return
+	fi
+
+	echo -n "%F{green}⬢ $node_version%F{reset}"
+}
+
+prompt_char() {
+	local 'color'
+
+	if [[ $RETVAL -eq 0 ]]; then
+		color="green"
+	else
+		color="red"
+	fi
+
+	echo -n "%F{blue}❯%f%F{cyan}❯%f%F{green}❯%f"
+
 }
 
 ZSH_GIT_PROMPT_FORCE_BLANK=1
@@ -162,5 +192,6 @@ ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}✔"
 
 PROMPT_USER="$(username)$(server)$(architecture)"
 
-PROMPT=$'\n┏╸$PROMPT_USER%(?..%F{red}%?%f · )%B%~%b\n┗╸$(zsh_terraform) %F{blue}❯%f%F{cyan}❯%f%F{green}❯%f '
+PROMPT=$'\n┏╸$PROMPT_USER%(?..%F{red}%?%f · )%B%~%b\n┗╸$(zsh_terraform) $(prompt_node) $(prompt_char) '
 RPROMPT='$(gitprompt)'
+

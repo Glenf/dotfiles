@@ -29,3 +29,4 @@ alias dcu="docker compose up -d"
 alias dcr="docker compose run --rm"
 alias dcd="docker compose down"
 alias dlogs="docker logs -f"
+
